@@ -94,13 +94,13 @@ cluster:
     enabled: true
     manifests:
       # 1. Cilium CNI (networking)
-      - https://raw.githubusercontent.com/YOUR_USER/oci-free-tier-flux/main/bootstrap/cilium.yaml
+      - https://raw.githubusercontent.com/syscode-labs/oci-free-tier-flux/main/bootstrap/cilium.yaml
       
       # 2. Flux CD (GitOps)
       - https://github.com/fluxcd/flux2/releases/download/v2.4.0/install.yaml
       
       # 3. Flux sync (watches this repo)
-      - https://raw.githubusercontent.com/YOUR_USER/oci-free-tier-flux/main/bootstrap/flux-sync.yaml
+      - https://raw.githubusercontent.com/syscode-labs/oci-free-tier-flux/main/bootstrap/flux-sync.yaml
 ```
 
 Apply the configuration:

@@ -8,7 +8,7 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/YOUR_GITHUB_USER/oci-free-tier-flux
+  url: https://github.com/syscode-labs/oci-free-tier-flux
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

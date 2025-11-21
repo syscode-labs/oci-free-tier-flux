@@ -1,0 +1,54 @@
+# Cilium values for Talos Linux (kube-proxy-free mode)
+#
+# To generate the full Cilium manifest:
+#   1. Install Helm: brew install helm
+#   2. Add Cilium repo: helm repo add cilium https://helm.cilium.io/
+#   3. Update repos: helm repo update
+#   4. Generate manifest:
+#      helm template cilium cilium/cilium \
+#        --version 1.16.5 \
+#        --namespace kube-system \
+#        --values bootstrap/cilium-values.yaml \
+#        > bootstrap/cilium.yaml
+
+kubeProxyReplacement: true
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+
+ipam:
+  mode: kubernetes
+
+hubble:
+  enabled: true
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+
+tunnel: vxlan
+autoDirectNodeRoutes: true
+
+# Talos-specific configurations
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
