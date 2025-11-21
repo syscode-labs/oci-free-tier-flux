@@ -1,0 +1,33 @@
+# Cilium CNI Manifest (kube-proxy-free mode)
+#
+# This file should be generated using Helm:
+#
+#   helm repo add cilium https://helm.cilium.io/
+#   helm repo update
+#
+#   cat > cilium-values.yaml <<EOF
+#   kubeProxyReplacement: true
+#   k8sServiceHost: 127.0.0.1
+#   k8sServicePort: 7445
+#   ipam:
+#     mode: kubernetes
+#   hubble:
+#     enabled: true
+#     relay:
+#       enabled: true
+#     ui:
+#       enabled: true
+#   tunnel: vxlan
+#   autoDirectNodeRoutes: true
+#   EOF
+#
+#   helm template cilium cilium/cilium \
+#     --version 1.16.5 \
+#     --namespace kube-system \
+#     --values cilium-values.yaml \
+#     > bootstrap/cilium.yaml
+#
+# IMPORTANT: This manifest must be generated before deploying the cluster.
+# Talos will fetch this file during bootstrap to provide CNI networking.
+#
+# TODO: Run the above commands to generate the full Cilium manifest

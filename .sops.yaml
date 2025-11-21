@@ -1,0 +1,12 @@
+# SOPS configuration for Age encryption
+#
+# Replace YOUR_AGE_PUBLIC_KEY with your actual Age public key
+# Generate one with: age-keygen -o age-key.txt
+#
+# IMPORTANT: Keep age-key.txt private! Never commit it to Git.
+# Only the public key goes in this file.
+
+creation_rules:
+  - path_regex: .*\.enc\.yaml$
+    encrypted_regex: ^(data|stringData|values)$
+    age: YOUR_AGE_PUBLIC_KEY_REPLACE_ME

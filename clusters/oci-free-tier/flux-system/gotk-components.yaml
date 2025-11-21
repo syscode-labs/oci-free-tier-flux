@@ -1,0 +1,15 @@
+# Flux CD Components
+#
+# This file should be generated using Flux CLI:
+#
+#   flux install --export > clusters/oci-free-tier/flux-system/gotk-components.yaml
+#
+# Alternatively, this file is not strictly needed since we reference the
+# official Flux install manifest directly in Talos config:
+#
+#   - https://github.com/fluxcd/flux2/releases/download/v2.4.0/install.yaml
+#
+# This file is kept as a placeholder for reference, but the bootstrap
+# process uses the URL above instead.
+#
+# TODO: Generate with flux install --export if you want to customize Flux components

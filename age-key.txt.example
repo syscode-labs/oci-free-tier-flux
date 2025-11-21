@@ -1,0 +1,18 @@
+# AGE secret key v1
+# created: 2024-01-01T00:00:00Z
+# public key: age1qqz7hjxv8qp2kamxl8txqmjvhcj4jz0qc6zk7zexample
+AGE-SECRET-KEY-EXAMPLE1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890ABC
+
+# IMPORTANT: This is just an example!
+# Generate your own Age key with: age-keygen -o age-key.txt
+#
+# The actual age-key.txt should be:
+# 1. Generated locally
+# 2. Stored securely
+# 3. NEVER committed to Git
+# 4. Backed up securely (loss means you cannot decrypt secrets)
+#
+# Usage:
+#   age-keygen -o age-key.txt
+#   # Copy the public key from output to .sops.yaml
+#   # Store age-key.txt in cluster: kubectl create secret generic sops-age ...

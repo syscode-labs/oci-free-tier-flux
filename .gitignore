@@ -1,0 +1,22 @@
+# Age private key - NEVER commit!
+age-key.txt
+
+# Unencrypted secrets - only commit .enc.yaml files
+*secret*.yaml
+*-secret.yaml
+!*.enc.yaml
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.iml

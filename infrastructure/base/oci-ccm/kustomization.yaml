@@ -1,0 +1,11 @@
+# OCI Cloud Controller Manager
+#
+# TODO: Add OCI CCM manifests from upstream:
+# kubectl kustomize github.com/oracle/oci-cloud-controller-manager//manifests \
+#   > infrastructure/base/oci-ccm/manifest.yaml
+#
+# Then reference it here:
+# apiVersion: kustomize.config.k8s.io/v1beta1
+# kind: Kustomization
+# resources:
+#   - manifest.yaml
