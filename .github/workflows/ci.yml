@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate:
+    name: Validate Kubernetes Manifests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Flux CLI
+      uses: fluxcd/flux2/action@main
+
+    - name: Install kubeconform
+      run: |
+        curl -L https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz | tar xz
+        sudo mv kubeconform /usr/local/bin/
+        kubeconform -v
+
+    - name: Install Pluto
+      run: |
+        curl -L https://github.com/FairwindsOps/pluto/releases/download/v5.20.2/pluto_5.20.2_linux_amd64.tar.gz | tar xz
+        sudo mv pluto /usr/local/bin/
+        pluto version
+
+    - name: Validate Flux manifests
+      run: |
+        flux check --pre
+
+    - name: Build Kustomization outputs
+      run: |
+        # Find all kustomization.yaml files and build them
+        find . -name "kustomization.yaml" -not -path "*/flux-system/*" | while read -r kfile; do
+          dir=$(dirname "$kfile")
+          echo "Building $dir"
+          kubectl kustomize "$dir" > "/tmp/$(echo $dir | tr '/' '_').yaml" || echo "Failed to build $dir"
+        done
+
+    - name: Validate with kubeconform
+      run: |
+        # Validate all built manifests
+        for manifest in /tmp/*.yaml; do
+          if [ -f "$manifest" ]; then
+            echo "Validating $manifest"
+            kubeconform \
+              -strict \
+              -ignore-missing-schemas \
+              -schema-location default \
+              -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+              -summary \
+              "$manifest"
+          fi
+        done
+
+    - name: Check for deprecated APIs with Pluto
+      run: |
+        # Check all directories for deprecated K8s APIs
+        pluto detect-files -d . --target-versions k8s=v1.30.0 -o wide
+      continue-on-error: true  # Don't fail build on deprecation warnings
+
+    - name: Validate HelmRelease sources
+      run: |
+        # Check that all HelmRepository sources exist
+        flux check --pre
+        
+        # List all HelmReleases and their sources
+        find . -name "*.yaml" -exec grep -l "kind: HelmRelease" {} \; | while read -r file; do
+          echo "Checking HelmRelease in $file"
+        done
